@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink text-bone font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Cinematic ember selection */
+  ::selection {
+    background: theme('colors.ember');
+    color: theme('colors.ink');
+  }
+
+  /* Minimal, on-brand scrollbar */
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: theme('colors.ink');
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2418;
+    border-radius: 9px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.emberlow');
+  }
+}
+
+@layer components {
+  /* Uniform cinematic color grade applied to every placeholder still so the
+     site reads as one graded film rather than stock imagery. */
+  .grade {
+    filter: grayscale(0.35) contrast(1.08) brightness(0.82) sepia(0.22)
+      saturate(1.15);
+  }
+  .grade-deep {
+    filter: grayscale(0.55) contrast(1.12) brightness(0.62) sepia(0.3)
+      saturate(1.05);
+  }
+
+  .overline {
+    @apply font-mono text-[0.7rem] uppercase tracking-ultra text-ash;
+  }
+
+  .hairline {
+    @apply border-t border-bone/10;
+  }
+}
+
+/* ---- Keyframes for lightweight perpetual micro-interactions (non-GSAP) ---- */
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-2%, -1.5%, 0) scale(1.12);
+  }
+}
+
+@keyframes pulseDot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 0.92;
+  }
+  8% {
+    opacity: 0.74;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  20% {
+    opacity: 0.82;
+  }
+  50% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 0.88;
+  }
+}
+
+.animate-pulseDot {
+  animation: pulseDot 2.4s ease-in-out infinite;
+}
+
+.flicker {
+  animation: flicker 6s steps(1, end) infinite;
+}
+
+/* Fine film grain — applied only to a fixed, pointer-events-none overlay
+   (never to scrolling containers) per performance guardrails. */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.text-stroke {
+  -webkit-text-stroke: 1px theme('colors.bone');
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
